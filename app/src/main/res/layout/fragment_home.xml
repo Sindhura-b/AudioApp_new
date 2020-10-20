@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal|center_vertical"
+    android:background="#FFFFFF"
+    tools:context=".ui.HomeFragment">
+
+    <!--    <ListView
+        android:id="@+id/my_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />-->
+
+    <!--    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="hello blank fragment"
+        android:textColor="#9C0404"
+        android:textColorLink="#FFFFFF" />-->
+
+    <ImageButton
+        android:id="@+id/radio_button_checked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="#FFFFFF"
+        android:src="@drawable/ic_radio_botton_checked" />
+
+    <ImageButton
+        android:id="@+id/radio_button_unchecked"
+        android:layout_width="37dp"
+        android:layout_height="34dp"
+        android:layout_centerInParent="true"
+        android:background="#FFFFFF"
+        android:src="@drawable/ic_radio_botton_unchecked"
+        android:visibility="gone" />
+
+
+
+
+
+
+
+</RelativeLayout>
