@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.example.myapp2.util.MainActivityFragmentManager;
 
@@ -32,20 +33,55 @@ public class MainActivity extends AppCompatActivity implements IMainActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
 
-        loadFragment(HomeFragment.newInstance());
+        loadFragment(HomeFragment.newInstance(), true);
         Log.d(TAG, "load fragment called:");
     }
 
-    @Override
+/*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
 
         getMenuInflater().inflate(R.menu.my_menu, menu);
         return false;
-    }
+    }*/
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        getMenuInflater().inflate(R.menu.my_menu, menu);
+
+        //onOptionsMenuCreated(menu);
+
+        // setup the SearchView
+        final MenuItem searchItem = menu.findItem(R.id.search_icon);
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setQueryHint("Search Here!");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.d(TAG, "text submit");
+                displaySearchResults(query, searchView);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(final String query) {
+                //arrayAdapter.getFilter().filter(s);
+                Log.d(TAG, "text changed and arrayadapter filtered");
+                return true;
+            }
+        });
+
+        return true;
+    }
+
+/*    @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         int id = menuItem.getItemId();
         if(id == R.id.search_icon){
@@ -69,26 +105,25 @@ public class MainActivity extends AppCompatActivity implements IMainActivity
             });
         }
         return super.onOptionsItemSelected(menuItem);
-    }
+    }*/
 
-    private void loadFragment(Fragment fragment){
+    private void loadFragment(Fragment fragment, boolean lateralMovement){
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
+        if(lateralMovement){
+            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        }
         String tag ="";
         if(fragment instanceof HomeFragment){
             tag = getString(R.string.fragment_home);
         }
         else if(fragment instanceof CategoryFragment){
             tag = getString(R.string.fragment_category);
-            transaction.addToBackStack(tag);
+            //transaction.addToBackStack(tag);
         }
-        //else if(fragment instanceof PlaylistFragment){
-        //    tag = getString(R.string.fragment_home);
-        //    transaction.addToBackStack(tag);
-        //}
 
-        transaction.add(R.id.main_container,fragment,tag);
+        transaction.replace(R.id.main_container,fragment,tag);
         transaction.commit();
         Log.d(TAG, "loaded fragment");
 
@@ -131,9 +166,23 @@ public class MainActivity extends AppCompatActivity implements IMainActivity
         Bundle bundle = new Bundle();
         bundle.putString(categoryFragment.QUERY, query);
         categoryFragment.setArguments(bundle);
-        loadFragment(categoryFragment);
+        loadFragment(categoryFragment, true);
 
         Log.d(TAG, "MainActivity: Display search results called" );
+    }
+
+    @Override
+    public void onBackPressed() {
+        String tag ="";
+
+        if(!(getSupportFragmentManager().findFragmentById(R.id.main_container) instanceof HomeFragment))
+        {
+            HomeFragment homeFragment = new HomeFragment();
+            FragmentTransaction t= getSupportFragmentManager().beginTransaction();
+            t.replace(R.id.main_container,homeFragment).commit();
+        }else {
+            super.onBackPressed();
+        }
     }
 
 

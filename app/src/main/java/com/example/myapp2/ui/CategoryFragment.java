@@ -15,6 +15,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -72,15 +74,29 @@ public class CategoryFragment extends Fragment
         mIMainActivity = (IMainActivity) getActivity();
     }
 
-   @Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.layout_category_list_item, container, false);
+       View view = inflater.inflate(R.layout.layout_category_list_item, container, false);
+       //View view = super.onCreateView(R.layout.layout_category_list_item, container, savedInstanceState);
+
+       // setup the toolbar/actionbar
+       //Toolbar toolbar = view.findViewById(R.id.toolbar);
+       //setSupportActionBar(toolbar);
+
+        //makes searched query editable on long press
+        /*toolbar.setOnLongClickListener(new View.OnLongClickListener() {
+            editSearchView.setIconified(false);
+            editSearchView.setQuery(searchQuery,false);
+            return false;
+            @Override
+            public boolean onLongClick(View view) {
+                return false;
+            }
+        });*/
+        //the app will call onCreateOptionsMenu() for when the user wants to search
         setHasOptionsMenu(true);
 
-
-        //TextView textView = view.findViewById(R.id.mytext);
-        //textView.setText(searchQuery);
         Log.d(TAG, "Category fragment on create view");
         return view;
     }
