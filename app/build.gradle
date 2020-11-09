@@ -53,6 +53,19 @@ dependencies {
     //implementation 'com.google.firebase:firebase-firestore:17.1.2'
     implementation 'com.google.firebase:firebase-core:17.4.4'
     implementation 'com.google.firebase:firebase-firestore:21.5.0'
+
+     // implementing Google's play-services-location
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+
+    // GeoFire
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+
+    implementation 'com.firebase:geofire-android:3.0.0'
+
+    // GeoFire for firestore
+    implementation 'com.github.imperiumlabs:GeoFirestore-Android:v1.5.0'
+
 }
 
 
